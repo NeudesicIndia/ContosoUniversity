@@ -10,6 +10,7 @@ using ContosoUniversity.Models;
 using ContosoUniversity.DAL;
 using ContosoUniversity.ViewModels;
 using System.Data.Entity.Infrastructure;
+using Microsoft.ApplicationInsights.Telemetry.Services;
 
 namespace ContosoUniversity.Controllers
 {
@@ -94,6 +95,15 @@ namespace ContosoUniversity.Controllers
             {
                 db.Instructors.Add(instructor);
                 db.SaveChanges();
+                var properties = new Dictionary<string, object>()
+                {
+                    {"LastName", instructor.LastName},
+                    {"FirstMidName", instructor.FirstMidName},
+                    {"HireDate", instructor.HireDate},
+                    {"OfficeAssignment", instructor.OfficeAssignment},
+                };
+
+                ServerAnalytics.CurrentRequest.LogEvent("contosouniversity/instructors/create", properties);
                 return RedirectToAction("Index");
             }
             PopulateAssignedCourseData(instructor);
