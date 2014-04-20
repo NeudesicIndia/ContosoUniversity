@@ -34,7 +34,7 @@ namespace ContosoUniversity.Controllers
                 + "WHERE Discriminator = 'Student' "
                 + "GROUP BY EnrollmentDate";
             IEnumerable<EnrollmentDateGroup> data = db.Database.SqlQuery<EnrollmentDateGroup>(query);
-
+            System.Diagnostics.Trace.TraceInformation("About Page Visit");
             return View(data.ToList());
         }
 
