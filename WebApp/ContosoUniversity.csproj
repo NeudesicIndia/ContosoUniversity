@@ -51,7 +51,19 @@
     <Reference Include="Microsoft.ApplicationInsights.Telemetry.Web">
       <HintPath>..\ContosoUniversity\packages\Microsoft.ApplicationInsights.Telemetry.Services.0.7.1.0\lib\net35\Microsoft.ApplicationInsights.Telemetry.Web.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.ApplicationInsights.TraceListener">
+      <HintPath>..\ContosoUniversity\packages\Microsoft.ApplicationInsights.TraceListener.0.7.0\lib\net35\Microsoft.ApplicationInsights.TraceListener.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights.Tracing">
+      <HintPath>..\ContosoUniversity\packages\Microsoft.ApplicationInsights.TraceListener.0.7.0\lib\net35\Microsoft.ApplicationInsights.Tracing.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
+      <HintPath>..\ContosoUniversity\packages\Microsoft.Diagnostics.Tracing.EventSource.1.0.16\lib\net40\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\ContosoUniversity\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PagedList">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
     </Reference>
@@ -110,10 +122,6 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <Private>True</Private>
-      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -241,6 +249,8 @@
     <Content Include="Views\Department\Edit.cshtml" />
     <Content Include="Views\Department\Index.cshtml" />
     <Content Include="Views\Course\UpdateCourseCredits.cshtml" />
+    <Content Include="_EventRegisterUsersGuide.docx" />
+    <Content Include="_EventSourceUsersGuide.docx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201402242126344_InitialCreate.resx">
@@ -300,6 +310,11 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="..\ContosoUniversity\packages\Microsoft.Diagnostics.Tracing.EventRegister.1.0.16\tools\Microsoft.Diagnostics.Tracing.EventRegister.targets" Condition="Exists('..\ContosoUniversity\packages\Microsoft.Diagnostics.Tracing.EventRegister.1.0.16\tools\Microsoft.Diagnostics.Tracing.EventRegister.targets')" />
+  <Target Name="EnsureEventRegisterImported" BeforeTargets="BeforeBuild" Condition="'$(EventRegisterImported)' == ''">
+    <Error Condition="!Exists('..\ContosoUniversity\packages\Microsoft.Diagnostics.Tracing.EventRegister.1.0.16\tools\Microsoft.Diagnostics.Tracing.EventRegister.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\ContosoUniversity\packages\Microsoft.Diagnostics.Tracing.EventRegister.1.0.16\tools\Microsoft.Diagnostics.Tracing.EventRegister.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2002" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
