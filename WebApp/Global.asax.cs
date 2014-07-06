@@ -7,6 +7,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using ContosoUniversity.DAL;
 using System.Data.Entity.Infrastructure.Interception;
+using Microsoft.ApplicationInsights.Telemetry.Services;
 
 namespace ContosoUniversity
 {
@@ -21,6 +22,12 @@ namespace ContosoUniversity
             DbInterception.Add(new SchoolInterceptorTransientErrors());
             DbInterception.Add(new SchoolInterceptorLogging());
 
+        }
+
+        protected void Application_BeginRequest()
+        {
+            ServerAnalytics.CurrentRequest.ClientIPAddress =
+                HttpContext.Current.Request.ServerVariables.Get("REMOTE_ADDR");
         }
     }
 }
